@@ -1,20 +1,21 @@
-public class MyArrayListInt {
+public class MyArrayListObject {
+
     private final int DEFAULT_CAPACITY = 10;
 
-    private int[] data;
+    private Object[] data;
     private int sz;
 
-    public MyArrayListInt() {
-        data = new int[DEFAULT_CAPACITY];
+    public MyArrayListObject() {
+        data = new Object[DEFAULT_CAPACITY];
     }
 
-    public void add(int v) {
+    public void add(Object v) {
         ensureCapacity();
         data[sz] = v;
         ++sz;
     }
 
-    public void add(int index, int v) {
+    public void add(int index, Object v) {
         checkAdd(index);
 
         ensureCapacity();
@@ -42,12 +43,12 @@ public class MyArrayListInt {
         return sz;
     }
 
-    int get(int index) {
+    Object get(int index) {
         check(index);
         return data[index];
     }
 
-    void set(int index, int v) {
+    void set(int index, Object v) {
         check(index);
         data[index] = v;
     }
@@ -82,7 +83,7 @@ public class MyArrayListInt {
 
     private void ensureCapacity() {
         if (sz == data.length) {
-            int[] buff = new int[data.length + data.length / 2];
+            Object[] buff = new Object[data.length + data.length / 2];
             for (int i = 0; i < data.length; ++i) {
                 buff[i] = data[i];
             }

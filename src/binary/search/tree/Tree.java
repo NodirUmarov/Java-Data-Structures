@@ -1,6 +1,7 @@
 package binary.search.tree;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 public interface Tree<E> extends Collection<E> {
 
@@ -38,6 +39,50 @@ public interface Tree<E> extends Collection<E> {
         return getSize();
     }
 
+    public default boolean containsAll(Collection<?> collection) {
+        for (E e : this) {
+            if (!contains(e)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
+    public default boolean addAll(Collection<? extends E> collection) {
+        int length = size();
+        for (E e : this) {
+            add(e);
+        }
+        return length != size();
+    }
 
+    public default boolean removeAll(Collection<?> collection) {
+        int length = size();
+        for (E e : this) {
+            if (contains(e)) {
+                remove(e);
+            }
+        }
+        return length != size();
+    }
+
+    public default boolean retainAll(Collection<?> collection) {
+        int length = size();
+        for (E e : this) {
+            if (!contains(e)) {
+                remove(e);
+            }
+        }
+        return length != size();
+    }
+
+    public default Object[] toArray() {
+        Object[] elements = new Object[size()];
+        int index = 0;
+
+        for (E e : this) {
+            elements[index++] = e;
+        }
+        return elements;
+    }
 }
