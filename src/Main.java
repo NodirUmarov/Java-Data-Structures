@@ -1,13 +1,11 @@
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
 public class Main {
-
     public static void main(String[] args) {
-        MyArrayListObject objects = new MyArrayListObject();
-
-        objects.add("Java");
-        objects.add("Data");
-        objects.add("Structures");
-
-        String text = (String) objects.get(0);
-
+        PriorityQueue
     }
 }

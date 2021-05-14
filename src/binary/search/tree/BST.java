@@ -7,9 +7,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
     protected TreeNode<E> root;
     protected int size = 0;
 
-    public BST() {
-
-    }
+    public BST() {}
 
     public BST(E[] objects) {
         for (int i = 0; i < objects.length; i++) {
@@ -97,7 +95,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
             if (current == null) {
                 return false;
             }
-            else if (current.leftChild == null) {
+            if (current.leftChild == null) {
                 if (parent == null) {
                     root = current.rightChild;
                 }
@@ -110,10 +108,20 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
                     }
                 }
             }
+            else {
+                TreeNode<E> parentOfRightMost = current;
+                TreeNode<E> rightMost = current.leftChild;
+
+                while (rightMost.rightChild != null) {
+                    parentOfRightMost = rightMost;
+                    rightMost = rightMost.rightChild;
+                }
+            }
 
         }
 
-        return false;
+        size--;
+        return true;
     }
 
     @Override
@@ -123,17 +131,45 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
 
     @Override
     public void postorder() {
+        postorder(root);
+    }
 
+    public void postorder(TreeNode<E> root) {
+        if (root == null) {
+            return;
+        }
+        postorder(root.leftChild);
+        postorder(root.rightChild);
+        System.out.println(root.element + " ");
     }
 
     @Override
     public void preorder() {
+        preorder(root);
+    }
+
+    public void preorder(TreeNode<E> root) {
+        if (root == null) {
+            return;
+        }
+        System.out.println(root.element + " ");
+        preorder(root.leftChild);
+        preorder(root.rightChild);
 
     }
 
     @Override
     public void inorder() {
+        inorder(root);
+    }
 
+    public void inorder(TreeNode<E> root) {
+        if (root == null) {
+            return;
+        }
+        inorder(root.leftChild);
+        System.out.println(root.element + " ");
+        inorder(root.rightChild);
     }
 
     @Override
