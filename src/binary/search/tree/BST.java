@@ -1,8 +1,10 @@
 package binary.search.tree;
 
+import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Iterator;
 
-public class BST<E extends Comparable<E>> implements Tree<E> {
+public class BST<E extends Comparable<E>> extends AbstractCollection<E> implements Tree<E> {
 
     protected TreeNode<E> root;
     protected int size = 0;
@@ -124,9 +126,28 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
         return true;
     }
 
+    public ArrayList<TreeNode<E>> path(E e) {
+        ArrayList<TreeNode<E>> list = new ArrayList<>();
+        TreeNode<E> current = root;
+
+        while (current != null) {
+            list.add(current);
+            if (e.compareTo(current.element) < 0) {
+                current = current.leftChild;
+            }
+            else if (e.compareTo(current.element) > 0) {
+                current = current.rightChild;
+            }
+            else {
+                break;
+            }
+        }
+        return list;
+    }
+
     @Override
     public int getSize() {
-        return 0;
+        return size;
     }
 
     @Override
@@ -174,16 +195,64 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new InorderIterator();
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
-        return null;
+    public int size() {
+        return getSize();
     }
 
     @Override
     public void clear() {
+        root = null;
+        size = 0;
+    }
 
+    public TreeNode<E> getRoot() {
+        return root;
+    }
+
+    private class InorderIterator implements Iterator {
+
+        private ArrayList<E> iterableList = new ArrayList<>();
+        private int current = 0;
+
+        public InorderIterator() {
+            inorder();
+        }
+
+        private void inorder() {
+            inorder(root);
+        }
+
+        private void inorder(TreeNode<E> root) {
+            if (root == null) {
+                return;
+            }
+            inorder(root.leftChild);
+            iterableList.add(root.element);
+            inorder(root.rightChild);
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current < iterableList.size();
+        }
+
+        @Override
+        public Object next() {
+            return iterableList.get(current++);
+        }
+
+        @Override
+        public void remove() {
+            if (current == 0) {
+                throw new IllegalStateException();
+            }
+            delete(iterableList.get(--current)) ;
+            iterableList.clear();
+            inorder();
+        }
     }
 }
